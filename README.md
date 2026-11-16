@@ -133,3 +133,6 @@ This project focuses on learning and experimentation, not training a production-
 - [ ] Extensions
 
 **Long-term goal:** Build a working, small-scale GPT language model from random initialization while understanding every major component involved in its architecture and training.
+
+
+Task Tracker Link : [LINK (Gsheet)](https://docs.google.com/spreadsheets/d/1cNE6Pf4kca2tJQi4N7PLNqlzmdIZAPv-_ClUX8KQEu4/edit?usp=sharing)
