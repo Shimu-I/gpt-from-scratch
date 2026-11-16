@@ -1,0 +1,474 @@
+{
+  "schema": 1,
+  "title": "GPT from Scratch",
+  "stages": [
+    {
+      "id": 1,
+      "name": "Neural Network Foundations",
+      "why": "Every later stage reuses these layers, losses, and the gradient-checking habit.",
+      "concepts": "Array shapes, broadcasting, chain rule, softmax, cross-entropy, gradient descent",
+      "tasks": [
+        {
+          "title": "Set up the Python environment",
+          "done": "Virtual env is active and python --version prints 3.10 or newer"
+        },
+        {
+          "title": "Install NumPy, Matplotlib, Pytest",
+          "done": "pip list shows all three and import numpy runs without error"
+        },
+        {
+          "title": "Create the project folder and Git repo",
+          "done": "Repo has src/, tests/, notebooks/ and a first commit"
+        },
+        {
+          "title": "Understand NumPy arrays and dimensions",
+          "done": "You predict the shape of 5 reshape and broadcast cases, then confirm each in code"
+        },
+        {
+          "title": "Implement vector operations",
+          "done": "Dot product, norm, and elementwise ops match np results"
+        },
+        {
+          "title": "Implement matrix multiplication",
+          "done": "Loop version equals a @ b on random 4x3 times 3x5 matrices"
+        },
+        {
+          "title": "Implement activation functions",
+          "done": "ReLU, tanh, sigmoid have forward and derivative; tests pass on known values"
+        },
+        {
+          "title": "Implement softmax",
+          "done": "Rows sum to 1 and inputs like 1000 give no NaN"
+        },
+        {
+          "title": "Implement a loss function",
+          "done": "MSE and cross-entropy return 0 for a perfect prediction and match a hand-computed value"
+        },
+        {
+          "title": "Understand derivatives and gradients",
+          "done": "You differentiate x squared, sigmoid, and a two-variable function on paper"
+        },
+        {
+          "title": "Implement a forward pass",
+          "done": "Two-layer network returns outputs of shape (batch, out)"
+        },
+        {
+          "title": "Derive backpropagation on paper",
+          "done": "One page deriving dW, db, dX for a linear layer"
+        },
+        {
+          "title": "Implement backpropagation manually",
+          "done": "Every gradient has the same shape as its parameter"
+        },
+        {
+          "title": "Implement gradient descent",
+          "done": "Loss falls steadily over 100 steps on toy data"
+        },
+        {
+          "title": "Perform numerical gradient checking",
+          "done": "Relative error is below 1e-5 for every parameter"
+        },
+        {
+          "title": "Train, test, and document the two-layer network",
+          "done": "XOR is solved, loss plot is saved, and results are logged in the journal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Language Modeling Foundations",
+      "why": "Language models predict the next token, so data and batching must be right before any attention.",
+      "concepts": "Tokens, vocabulary, next-token prediction, train/validation split, embeddings, perplexity",
+      "tasks": [
+        {
+          "title": "Choose a small text corpus",
+          "done": "A file under 1 MB loads and its first 200 characters print"
+        },
+        {
+          "title": "Inspect corpus statistics",
+          "done": "Character count, unique characters, and top 10 frequencies are printed"
+        },
+        {
+          "title": "Build the character vocabulary",
+          "done": "char-to-id and id-to-char maps exist and vocab size is printed"
+        },
+        {
+          "title": "Write encode and decode",
+          "done": "decode(encode(text)) equals text for the whole corpus"
+        },
+        {
+          "title": "Convert the corpus to an integer array",
+          "done": "Array is integer dtype and its length equals the character count"
+        },
+        {
+          "title": "Split into train and validation",
+          "done": "90/10 split with no overlap and sizes printed"
+        },
+        {
+          "title": "Create input-target pairs",
+          "done": "y is x shifted by one token, checked on 3 samples"
+        },
+        {
+          "title": "Build a batch sampler with context length",
+          "done": "x and y both have shape (B, T)"
+        },
+        {
+          "title": "Implement the embedding lookup",
+          "done": "Output is (B, T, C) and backward adds gradients into the used rows only"
+        },
+        {
+          "title": "Build a bigram language model",
+          "done": "Forward returns logits (B, T, V) and a loss"
+        },
+        {
+          "title": "Check the initial loss",
+          "done": "Starting loss is close to ln(vocab size)"
+        },
+        {
+          "title": "Write the training and validation loops",
+          "done": "Both losses fall, the loss curve is saved, and sample text is generated"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Attention Mechanism",
+      "why": "Attention lets each token read from earlier tokens; it is the core of GPT.",
+      "concepts": "Queries, keys, values, scaled dot product, causal mask, multi-head attention",
+      "tasks": [
+        {
+          "title": "Understand queries, keys, and values",
+          "done": "You explain Q, K, V in 3 sentences using a 3-token example"
+        },
+        {
+          "title": "Implement Q, K, V projections",
+          "done": "Each output has shape (B, T, head_dim)"
+        },
+        {
+          "title": "Compute attention scores",
+          "done": "Scores have shape (B, T, T) and equal Q times K transposed"
+        },
+        {
+          "title": "Apply scaling",
+          "done": "Score variance is near 1 with scaling and larger without it"
+        },
+        {
+          "title": "Apply the causal mask",
+          "done": "Upper triangle is set to negative infinity before softmax"
+        },
+        {
+          "title": "Verify the mask blocks the future",
+          "done": "Changing token t+1 leaves the output at t unchanged"
+        },
+        {
+          "title": "Apply softmax to the scores",
+          "done": "Rows sum to 1 and masked entries are exactly 0"
+        },
+        {
+          "title": "Weight the values",
+          "done": "Output equals weights times V with shape (B, T, head_dim)"
+        },
+        {
+          "title": "Implement single-head backward",
+          "done": "Gradient check relative error is below 1e-5"
+        },
+        {
+          "title": "Implement multi-head split and merge",
+          "done": "Splitting then merging returns the original tensor"
+        },
+        {
+          "title": "Add the output projection",
+          "done": "Shape returns to (B, T, C)"
+        },
+        {
+          "title": "Test multi-head attention end to end",
+          "done": "Pytest suite passes for shapes, mask, and gradient checks"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Transformer Architecture",
+      "why": "A block combines attention with feed-forward layers; stacking blocks gives depth.",
+      "concepts": "Positional encoding, layer normalization, residual connections, feed-forward networks, pre-norm",
+      "tasks": [
+        {
+          "title": "Implement token embeddings",
+          "done": "Output shape is (B, T, C) and a shape test passes"
+        },
+        {
+          "title": "Implement positional embeddings",
+          "done": "Shape is (T, C) and different positions give different vectors"
+        },
+        {
+          "title": "Combine token and positional embeddings",
+          "done": "Sum has shape (B, T, C)"
+        },
+        {
+          "title": "Implement the feed-forward network",
+          "done": "Hidden layer is 4 times wider and output shape equals input shape"
+        },
+        {
+          "title": "Implement the activation with its derivative",
+          "done": "GELU or ReLU matches a numerical derivative"
+        },
+        {
+          "title": "Implement layer norm forward",
+          "done": "Each token has mean near 0 and standard deviation near 1"
+        },
+        {
+          "title": "Implement layer norm backward",
+          "done": "Gradient check error is below 1e-5"
+        },
+        {
+          "title": "Add residual connections",
+          "done": "Output is x plus f(x) and gradients flow through both paths"
+        },
+        {
+          "title": "Choose pre-norm or post-norm",
+          "done": "A short note in the journal explains your choice"
+        },
+        {
+          "title": "Assemble the Transformer block",
+          "done": "Output shape equals input shape"
+        },
+        {
+          "title": "Implement backward through the block",
+          "done": "Gradient check passes on the whole block"
+        },
+        {
+          "title": "Write block unit tests",
+          "done": "Pytest passes for shapes and gradients"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "GPT Architecture",
+      "why": "This stage connects everything into one model that outputs next-token probabilities.",
+      "concepts": "Decoder-only models, logits, weight initialization, autoregressive generation, sampling",
+      "tasks": [
+        {
+          "title": "Define the config object",
+          "done": "vocab size, context length, layers, heads, and embedding size live in one place"
+        },
+        {
+          "title": "Initialize parameters randomly",
+          "done": "Weights use small std (about 0.02) and all shapes are printed"
+        },
+        {
+          "title": "Stack N Transformer blocks",
+          "done": "Changing the layer count in config changes the model depth"
+        },
+        {
+          "title": "Add the final layer norm",
+          "done": "Output shape is still (B, T, C)"
+        },
+        {
+          "title": "Add the language-modeling head",
+          "done": "Logits have shape (B, T, V)"
+        },
+        {
+          "title": "Compute cross-entropy over all positions",
+          "done": "Loss is a single finite number"
+        },
+        {
+          "title": "Check the initial loss",
+          "done": "Starting loss is close to ln(vocab size)"
+        },
+        {
+          "title": "Implement the full backward pass",
+          "done": "Gradient check passes on a tiny model (2 layers, embedding size 8)"
+        },
+        {
+          "title": "Implement the generation loop",
+          "done": "Requested number of tokens is produced"
+        },
+        {
+          "title": "Add temperature and top-k sampling",
+          "done": "Top-k 1 is greedy and low temperature is near deterministic"
+        },
+        {
+          "title": "Generate from the untrained model",
+          "done": "Gibberish output is saved as your baseline"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Training GPT from Scratch",
+      "why": "Training turns random weights into a working model; stable loops matter more than size.",
+      "concepts": "Adam, learning-rate schedule, gradient clipping, overfitting, checkpoints",
+      "tasks": [
+        {
+          "title": "Choose the final dataset",
+          "done": "Corpus is CPU-sized (a few MB at most) and loads cleanly"
+        },
+        {
+          "title": "Build the data pipeline",
+          "done": "Train and validation batches load with the correct shapes"
+        },
+        {
+          "title": "Pick a CPU-friendly config",
+          "done": "Model has under 1M parameters and step time is measured"
+        },
+        {
+          "title": "Implement Adam with weight decay",
+          "done": "One update matches a hand-computed step"
+        },
+        {
+          "title": "Add gradient clipping",
+          "done": "Gradient norm never exceeds your chosen limit"
+        },
+        {
+          "title": "Add learning-rate warmup and decay",
+          "done": "Schedule plot is saved"
+        },
+        {
+          "title": "Overfit a single batch",
+          "done": "Loss on one batch drops close to 0"
+        },
+        {
+          "title": "Launch the full training run",
+          "done": "Training loss decreases steadily"
+        },
+        {
+          "title": "Log losses every N steps",
+          "done": "Train and validation loss are saved to a CSV or log file"
+        },
+        {
+          "title": "Save checkpoints",
+          "done": "A .npz file with all parameters is written"
+        },
+        {
+          "title": "Resume from a checkpoint",
+          "done": "Loss continues from where it stopped instead of resetting"
+        },
+        {
+          "title": "Generate samples at several checkpoints",
+          "done": "Samples show visible improvement and are saved"
+        },
+        {
+          "title": "Document the run",
+          "done": "Config, time taken, final losses, and observations are in the journal"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Evaluation and Experiments",
+      "why": "Measurements show what actually helps on a CPU budget.",
+      "concepts": "Perplexity, parameter counting, scaling, controlled experiments, memory profiling",
+      "tasks": [
+        {
+          "title": "Count parameters per component",
+          "done": "A table lists embeddings, attention, feed-forward, and total"
+        },
+        {
+          "title": "Estimate model size",
+          "done": "Size in MB is reported and matches the checkpoint file"
+        },
+        {
+          "title": "Compute validation loss",
+          "done": "Loss is measured on the full validation set"
+        },
+        {
+          "title": "Compute perplexity",
+          "done": "Perplexity equals exp(validation loss) and is recorded"
+        },
+        {
+          "title": "Measure training time per step",
+          "done": "Average step time over 50 steps is recorded"
+        },
+        {
+          "title": "Measure peak memory",
+          "done": "Peak RAM is recorded for one run"
+        },
+        {
+          "title": "Experiment with depth",
+          "done": "Runs with 1, 2, and 4 layers are compared"
+        },
+        {
+          "title": "Experiment with embedding size",
+          "done": "At least 3 sizes are compared with the same data and steps"
+        },
+        {
+          "title": "Experiment with context length",
+          "done": "At least 3 lengths are compared"
+        },
+        {
+          "title": "Plot the results",
+          "done": "Plots of loss vs size and time vs size are saved"
+        },
+        {
+          "title": "Analyze the generated text",
+          "done": "Notes cover repetition, spelling, and structure"
+        },
+        {
+          "title": "Document limitations and findings",
+          "done": "A written summary lists limits and what you would try next"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Advanced Extensions",
+      "why": "Subword tokens, Bengali text, and PyTorch show how your own code compares.",
+      "concepts": "Byte-pair encoding, Unicode, bits per character, framework autograd, numerical equivalence",
+      "tasks": [
+        {
+          "title": "Study byte-pair encoding",
+          "done": "You can merge 3 pairs by hand on a short string"
+        },
+        {
+          "title": "Implement BPE training",
+          "done": "Merges are learned on a small corpus and saved"
+        },
+        {
+          "title": "Implement BPE encode and decode",
+          "done": "Round trip returns the original text"
+        },
+        {
+          "title": "Train the GPT with the subword tokenizer",
+          "done": "Run finishes and loss is logged"
+        },
+        {
+          "title": "Compare character-level and subword-level",
+          "done": "Comparison uses bits per character, not raw loss"
+        },
+        {
+          "title": "Collect a Bengali dataset",
+          "done": "Clean text file exists and its source is noted"
+        },
+        {
+          "title": "Handle Bengali Unicode",
+          "done": "Normalization is applied and round trip passes on Bengali text"
+        },
+        {
+          "title": "Train on Bengali and English text",
+          "done": "Both languages appear in samples and loss is logged"
+        },
+        {
+          "title": "Install PyTorch (CPU only)",
+          "done": "import torch works and the NumPy code stays unchanged"
+        },
+        {
+          "title": "Reimplement the GPT in PyTorch",
+          "done": "Model runs forward and backward with the same config"
+        },
+        {
+          "title": "Verify equivalence with the NumPy model",
+          "done": "With copied weights, logits match within 1e-4"
+        },
+        {
+          "title": "Compare speed, memory, and loss curves",
+          "done": "A table compares the two implementations"
+        },
+        {
+          "title": "Write the final project report",
+          "done": "README status list is updated and findings are written"
+        }
+      ]
+    }
+  ]
+}
